@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { evaluate } from 'mathjs'     //npm install mathjs
 import './App.css'
 import Boton from './Componentes/Boton'
 import Pantalla from './componentes/Pantalla';
@@ -6,10 +7,15 @@ import BotonClear from './componentes/BotonClear';
 
 function App() {
   const [entrada, setEntrada] = useState('');
-  const AgregarEntrada = (val) => {
-    setEntrada(entrada + val);
-  }
-
+  const AgregarEntrada = (val) => setEntrada(entrada + val);
+  const calcularResultado = () => {
+    if (entrada) {
+      setEntrada(evaluate(entrada))
+    }
+    else {
+      alert('Por favor ingrese valores para realizar los cálculos')
+    }
+  };
   return (
     <div className='app'>
       <h1 className='titulo'>Mi Calculdora</h1>
@@ -34,12 +40,14 @@ function App() {
           <Boton manejarClick={AgregarEntrada}>*</Boton>
         </div>
         <div className='fila'>
-          <Boton manejarClick={AgregarEntrada}>=</Boton>
+          <Boton manejarClick={calcularResultado}>=</Boton>
           <Boton manejarClick={AgregarEntrada}>0</Boton>
           <Boton manejarClick={AgregarEntrada}>.</Boton>
           <Boton manejarClick={AgregarEntrada}>/</Boton>
         </div>
-        <div className='fila'><BotonClear>Clear</BotonClear></div>
+        <div className='fila'>
+          <BotonClear manejarClear={() => setEntrada('')}>Clear</BotonClear>
+        </div>
       </div>
 
     </div>
